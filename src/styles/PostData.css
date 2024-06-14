@@ -1,0 +1,71 @@
+/* App Styles */
+.app {
+    display: flex;
+    height: 100vh;
+  }
+  
+  
+  .drawer {
+    background-color: #ddd;
+    width: 250px;
+    height: 789%;
+    overflow-y: auto;
+  }
+  
+  .drawer-header {
+    background-color: #777;
+    color: white;
+    padding: 10px;
+  }
+  
+  .drawer-menu {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .drawer-menu li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .drawer-menu li.active {
+    background-color: #999;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Box Container Styles */
+  .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .post {
+    flex-basis: calc(33.33% - 20px); /* 33.33% width for each box with 20px spacing */
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 992px) {
+    .post {
+      flex-basis: calc(50% - 20px); /* 50% width for each box with 20px spacing */
+    }
+    
+  }
+  
+  @media (max-width: 576px) {
+    .post {
+      flex-basis: calc(100% - 20px); /* Full width for each box with 20px spacing */
+    }
+    .drawer{
+        height: 6100%;
+    }
+  }
+  
