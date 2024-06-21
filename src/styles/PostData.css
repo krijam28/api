@@ -118,20 +118,18 @@
     
   }
  .user-name{
-  gap: -30px;
+  
  }
 
 
-.edit-button{
-  color: green;
+.btn{
+  
   border: none;
   padding: 8px 16px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
- 
-  margin-right: -160px;
   cursor: pointer;
 }
 

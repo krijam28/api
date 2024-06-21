@@ -658,10 +658,15 @@ const handlePhotoSubmit = async (e) => {
   <li class="list-group-item d-flex justify-content-between align-items-start">
   <div className="user-info">
     <div className="user-initials">{getInitials(user.name)}</div>
-    <h3 className="user-name mx-auto m-8" >{user.name}</h3>
+    <h3 className="user-name" >{user.name}</h3>
     </div>
-    <span className='edit-button' onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></span>
-            <span className='delete-button' onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></span>
+    <div class="btn-group" role="group" aria-label="Basic example">
+  
+  <button type="button" class="btn btn-light"><i className="bi bi-pencil-square"></i></button>
+  <button type="button" class="btn btn-light"><i className="bi bi-trash"></i></button>
+</div>
+{/* <span className='edit-button' onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></span>
+<span className='delete-button' onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></span> */}
           
   </li>  
 </ol>           
