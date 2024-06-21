@@ -402,16 +402,7 @@ const handlePhotoSubmit = async (e) => {
       </aside>
 
       <main className="main-content">
-        {/* <div className="search-container">
-          <FontAwesomeIcon icon={faSearch} className='search-icon' />
-          <input 
-            className='searchbar'
-            type="text"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div> */}
+      
 
 
         {successMessage && (
@@ -658,24 +649,32 @@ const handlePhotoSubmit = async (e) => {
      
       {filteredUsers.map(user => (
         <div key={user.id} className="post">
-         <div className="user-info">
+         {/* <div className="user-info">
               <div className="user-initials">{getInitials(user.name)}</div>
               <h2 className="user-name">{user.name}</h2>
-            </div>
-            
-            <button className='edit-button' onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></button>
-            <button className='delete-button' onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></button>
-         
+            </div> */}  
+            <ol class="list-group">
+           
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+  <div className="user-info">
+    <div className="user-initials">{getInitials(user.name)}</div>
+    <h3 className="user-name mx-auto m-8" >{user.name}</h3>
+    </div>
+    <span className='edit-button' onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></span>
+            <span className='delete-button' onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></span>
+          
+  </li>  
+</ol>           
+   
            <br/>
             <p>{user.email}</p>
           <p>{user.phone}</p>
         </div>
       ))}
     </div>
+ 
   </>
 )}
-
-
 
         {selectedTab === 'Photos' && (
           <>
@@ -695,12 +694,14 @@ const handlePhotoSubmit = async (e) => {
           <div className="box-container">
             {filteredPhotos.map(photo => (
               <div key={photo.id} className="post">
-                <img src={photo.thumbnailUrl}  />
-                <p>{photo.title}</p>
-                <div className='both-btn'>
+                 <p>{photo.title}</p>
+                 <div className='both-btn'>
             <button className='edit-button'  onClick={() => handleEditPhoto(photo)} data-bs-toggle="modal" data-bs-target="#editphotoModal"><i className="bi bi-pencil-square"></i></button>
             <button className='delete-button' onClick={() => handleDeletePhoto(photo)} data-bs-toggle="modal" data-bs-target="#deletephotoModal"><i className="bi bi-trash"></i></button>
           </div>
+                <img src={photo.thumbnailUrl}  />
+               
+               
               </div> 
             ))}
           </div>
@@ -779,6 +780,10 @@ const handlePhotoSubmit = async (e) => {
             {filteredComments.map(comment => (
               <div key={comment.id} className="post">
                 <h2>{comment.name}</h2>
+                <div className='both-btn'>
+                <button className='edit-button'  data-bs-toggle="modal" data-bs-target="#editModal"><i className="bi bi-pencil-square"></i></button>
+                <button className='delete-button'  data-bs-toggle="modal" data-bs-target="#deletepostModal"><i class="bi bi-trash3"></i></button>
+                </div>
                 <p>{comment.email}</p>
                 <p>{comment.body}</p>
               </div>
