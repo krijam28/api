@@ -662,15 +662,11 @@ const handlePhotoSubmit = async (e) => {
     </div>
     <div class="btn-group" role="group" aria-label="Basic example">
   
-  <button type="button" class="btn btn-light"><i className="bi bi-pencil-square"></i></button>
-  <button type="button" class="btn btn-light"><i className="bi bi-trash"></i></button>
-</div>
-{/* <span className='edit-button' onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></span>
-<span className='delete-button' onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></span> */}
-          
+  <button type="button" class="btn btn-light" onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></button>
+  <button type="button" class="btn btn-light" onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></button>
+</div>          
   </li>  
 </ol>           
-   
            <br/>
             <p>{user.email}</p>
           <p>{user.phone}</p>
