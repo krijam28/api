@@ -1,0 +1,94 @@
+{
+  "users": [
+    {
+      "name": "Krijam vaddoriya",
+      "email": "krijam@gmail.com",
+      "phone": "9974649282",
+      "id": "1"
+    },
+    {
+      "name": "Mansi lunagariya",
+      "email": "mansi@gmail.com",
+      "phone": "8511707129",
+      "id": "2"
+    },
+    {
+      "name": "Chelsey Dulas",
+      "email": "Lucio_Hettinger@annie.ca",
+      "phone": "(254)954-1289",
+      "id": "5"
+    },
+    {
+      "name": "Mrs. Dennis Sulist",
+      "email": "Karley_Dach@jasper.info",
+      "phone": "1-477-935-8478 x6430",
+      "id": "6"
+    },
+    {
+      "name": "tech rules",
+      "email": "Telly.Hoeger@billy.biz",
+      "phone": "210.067.6132",
+      "id": "7"
+    },
+    {
+      "name": "Nicholas Runol",
+      "email": "Sherwood@rosamond.me",
+      "phone": "586.493.6943 x140",
+      "id": "8"
+    },
+    {
+      "name": "Netflix tech",
+      "email": "Rey.Padberg@karina.biz",
+      "phone": "024-648-3804",
+      "id": "10"
+    },
+    {
+      "id": "59cb",
+      "name": "Amazon services",
+      "email": "a@gmail.com",
+      "phone": "7877898767"
+    },
+    {
+      "id": "6d41",
+      "name": "Nokia profile",
+      "email": "mn@gmail.com",
+      "phone": "7897657890"
+    },
+    {
+      "name": "Jibra crossing",
+      "email": "j@gmail.com",
+      "phone": "9087890890",
+      "id": "3772"
+    },
+    {
+      "name": "Ilana dikruj",
+      "email": "dikrujshah@gmail.com",
+      "phone": "8867878989",
+      "id": "8414"
+    },
+    {
+      "name": "Infosys softech",
+      "email": "info@gmail.com",
+      "phone": "7897898909",
+      "id": "bf4f"
+    },
+    {
+      "id": "224d",
+      "name": "Kreni parekh",
+      "email": "krenip@gmail.com",
+      "phone": "9878909878"
+    },
+    {
+      "id": "f7ef",
+      "name": "Dr world",
+      "email": "world@gmail.com",
+      "phone": "5678907890"
+    },
+    {
+      "id": "b025",
+      "name": "Somnadi dixit",
+      "email": "dixit@gmail.com",
+      "phone": "7898909876"
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import PostData from  './component/PostData'; 
+import MainApp from  './component/MainApp'; 
 
 
 const App = () => {
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<PostData />} />
+      <Route path="/" element={<MainApp />} />
         
       
         
