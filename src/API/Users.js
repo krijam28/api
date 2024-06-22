@@ -101,9 +101,10 @@ const UsersComponent = () => {
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+ 
   const getInitials = (name) => {
-    // Implement your logic to get initials from name
-    return name.split(' ').map(word => word[0].toUpperCase()).join('');
+    const initials = name.match(/\b\w/g) || [];
+    return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
   };
 
   return (

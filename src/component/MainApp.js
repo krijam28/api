@@ -3,59 +3,38 @@ import axios from 'axios';
 import fetchPhotos from '../API/Photos';
 import fetchTodos from '../API/Todos';
 import fetchAlbums from '../API/Albums';
-//import fetchUsers from '../API/Users';
+import fetchUsers from '../API/Users';
 import UsersComponent from '../API/Users';
 import fetchComments from '../API/Comments';
+import CommentsComponent from '../API/Comments';
 import '../styles/PostData.css';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 const MainApp = () => {
-  const [posts, setPosts] = useState([]);
+  
   const [photos, setPhotos] = useState([]);
   const [todos,setTodos] = useState([]);
   const [albums,setAlbums]= useState([]);
   const [users,setUsers] = useState([]);
-  const [comments,setComments] = useState([]);
   const [selectedTab, setSelectedTab] = useState('Users');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [filteredComments, setFilteredComments] = useState([]);
-  const [filteredTodos, setFilteredTodos] = useState([]);
+   const [filteredTodos, setFilteredTodos] = useState([]);
   const [filteredAlbums, setFilteredAlbums] = useState([]);
   const [filteredPhotos, setFilteredPhotos] = useState([]);
-  const [newPostTitle, setNewPostTitle] = useState('');
-  const [newPostBody, setNewPostBody] = useState('');
-  const [newUserName, setNewUserName] = useState('');
-  const [newUserEmail, setNewUserEmail] = useState('');
-  const [newUserPhone, setNewUserPhone] = useState('');
-  const [editPostTitle, setEditPostTitle] = useState('');
-  const [editPostBody, setEditPostBody] = useState('');
-  const [editPostId, setEditPostId] = useState(null);
-  const [editUserName, setEditUserName] = useState('');
-  const [editUserEmail, setEditUserEmail] = useState('');
-  const [editUserPhone, setEditUserPhone] = useState('');
-  const [editUserId, setEditUserId] = useState(null);
+ 
   const [editPhotoTitle, setEditPhotoTitle] = useState('');
   const [editPhotoThumbnailUrl, setEditPhotoThumbnailUrl] = useState('');
   const [editPhotoId, setEditPhotoId] = useState(null);
   const [deletePostId, setDeletePostId] = useState(null);
-  const [deleteUserId, setDeleteUserId] = useState(null);
   const [deletePhotoId, setDeletePhotoId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [newPhotoTitle, setNewPhotoTitle] = useState('');
   const [newPhotoThumbnailUrl, setNewPhotoThumbnailUrl] = useState('');
-  const [deleteCommentId, setDeleteCommentId] = useState(null);
-  const [newCommentBody, setNewCommentBody] = useState('');
-  const [newCommentName, setNewCommentName] = useState('');
-  const [newCommentEmail, setNewCommentEmail] = useState('');
-  const [editCommentName, setEditCommentName] = useState('');
-  const [editCommentEmail, setEditCommentEmail] = useState('');
-  const [editCommentBody, setEditCommentBody] = useState('');
-  const [editCommentId, setEditCommentId] = useState(null);
+  
+  
 
 const getInitials = (name) => {
     const initials = name.match(/\b\w/g) || [];
@@ -89,24 +68,7 @@ const getInitials = (name) => {
     setSnackbarOpen(true);
   };
  
-{/*delete post */}
 
-const handleDeletePost = (post) => {
-  setDeletePostId(post.id);
-};
-
-const confirmDelete = async () => {
-  try {
-    await axios.delete(`http://localhost:5001/posts/${deletePostId}`);
-    
-    // Filter out the deleted post from the posts state
-    const updatedPosts = posts.filter(post => post.id !== deletePostId);
-    setPosts(updatedPosts);
-    handleSnackbar('Post Deleted Successfully');
-  } catch (error) {
-    console.error('Error deleting post:', error);
-  }
-};
 
 
 
@@ -128,50 +90,8 @@ const confirmDeletePhoto = async () => {
   }
 };
 
-{/*delete comment */}
-const handleDeleteComment = (comment) => {
-  setDeleteCommentId(comment.id);
-};
 
-const confirmDeleteComment = async () => {
-  try {
-    await axios.delete(`http://localhost:5002/comments/${deleteCommentId}`);
-    
-    // Filter out the deleted post from the posts state
-    const updatedComments = comments.filter(comment => comment.id !== deleteCommentId);
-    setComments(updatedComments);
-    handleSnackbar('Comment Deleted Successfully');
-  } catch (error) {
-    console.error('Error deleting comment:', error);
-  }
-};
-{/*add post */}
-  const handlePostSubmit = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await axios.post('http://localhost:5001/posts',{
-        title: newPostTitle,
-        body: newPostBody,
-        // Optionally, you can add userId if required
-      });
-  
-      // Assuming your API returns the newly created post object, you can update your state accordingly
-      const newPost = response.data; // Assuming response.data is the newly created post object
-      setPosts([...posts, newPost]); // Update posts state with the new post
-      handleSnackbar('Post Created Successfully');
-    
-  
-      // Clear the input fields
-      setNewPostTitle('');
-      setNewPostBody('');
-  
-      // Optionally, you can fetch updated data from the server again if needed
-      // Example: refetchPosts();
-    } catch (error) {
-      console.error('Error adding post:', error);
-    }
-  };
+
   
 
   
@@ -206,69 +126,9 @@ const handlePhotoSubmit = async (e) => {
   }
 };
 
-{/*add comments */}
-const handleCommentSubmit = async (e) => {
-  e.preventDefault();
 
-  try {
-    const response = await axios.post('http://localhost:5002/comments',{
-      name: newCommentName,
-      email: newCommentBody,
-      body: newCommentBody,
-      
 
-      // Optionally, you can add userId if required
-    });
-
-    // Assuming your API returns the newly created post object, you can update your state accordingly
-    const newComment = response.data; // Assuming response.data is the newly created post object
-    setComments([...comments, newComment]); // Update posts state with the new post
-    handleSnackbar('Comment Created Successfully');
   
-
-    // Clear the input fields
-    setNewCommentName('');
-    setNewCommentEmail('');
-    setNewCommentBody('');
-   
-
-    // Optionally, you can fetch updated data from the server again if needed
-    // Example: refetchPosts();
-  } catch (error) {
-    console.error('Error adding comment:', error);
-  }
-};
-
-  {/*edit post*/}
-  const handleEditPost = (post) => {
-    setEditPostId(post.id);
-    setEditPostTitle(post.title);
-    setEditPostBody(post.body);
-  };
-  
-
-  const handleUpdatePost = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await axios.put(`http://localhost:5001/posts/${editPostId}`, {
-        title: editPostTitle,
-        body: editPostBody,
-      });
-  
-      const updatedPost = response.data;
-  
-      // Update the posts state with the updated post
-      const updatedPosts = posts.map(post =>
-        post.id === updatedPost.id ? updatedPost : post
-      );
-      setPosts(updatedPosts);
-      handleSnackbar('Post Updated Successfully');
-     
-    } catch (error) {
-      console.error('Error updating post:', error);
-    }
-  };
 
   
 
@@ -304,46 +164,15 @@ const handleCommentSubmit = async (e) => {
   };
   
 
-  {/*edit comment*/}
-  const handleEditComment = (comment) => {
-    setEditCommentId(comment.id);
-    setEditCommentName(comment.name);
-    setEditCommentEmail(comment.email);
-    setEditCommentBody(comment.body);
-  };
   
-  const handleUpdateComment = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await axios.put(`http://localhost:5002/comments/${editCommentId}`, {
-        name: editCommentName,
-        email: editCommentEmail,
-        body: editCommentBody,
-       
-      });
-  
-      const updatedComment = response.data;
-  
-      // Update the posts state with the updated post
-      const updatedComments = comments.map(comment =>
-        comment.id === updatedComment.id ? updatedComment : comment
-      );
-      setComments(updatedComments);
-      handleSnackbar('Comment Updated Successfully');
-     
-    } catch (error) {
-      console.error('Error updating comment:', error);
-    }
-  };
 
 {/*api caaling */}
   useEffect(() => {
     
     const fetchData = async () => {
       try {
-        const postsResponse = await axios.get('http://localhost:5001/posts');
-        setPosts(postsResponse.data);
+        // const postsResponse = await axios.get('http://localhost:5001/posts');
+        // setPosts(postsResponse.data);
 
         const photosData = await fetchPhotos();
         setPhotos(photosData);
@@ -354,11 +183,10 @@ const handleCommentSubmit = async (e) => {
         const albumsData = await fetchAlbums();
         setAlbums(albumsData);
 
-        const usersData = await fetchUsers();
-        setUsers(usersData);
+        // const usersData = await fetchUsers();
+        // setUsers(usersData);
 
-        const commentsData = await fetchComments();
-        setComments(commentsData);
+        
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -369,20 +197,20 @@ const handleCommentSubmit = async (e) => {
 
   {/*filter search post */}
     useEffect(() => {
-    const filteredUsers = users.filter(user =>
-       user.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredUsers(filteredUsers);
+    // const filteredUsers = users.filter(user =>
+    //    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredUsers(filteredUsers);
 
-    const filteredPosts = posts.filter(post =>
-      post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredPosts(filteredPosts);
+    // const filteredPosts = posts.filter(post =>
+    //   post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredPosts(filteredPosts);
 
-    const filteredComments = comments.filter(comment =>
-      comment.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredComments(filteredComments);
+    // const filteredComments = comments.filter(comment =>
+    //   comment.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredComments(filteredComments);
 
     const filteredTodos = todos.filter(todo =>
       todo.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -398,7 +226,7 @@ const handleCommentSubmit = async (e) => {
       photo.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredPhotos(filteredPhotos);
-  }, [searchQuery, users, posts, comments, todos, albums, photos]);
+  }, [searchQuery, users, todos, albums, photos]);
 
 
   
@@ -418,110 +246,14 @@ const handleCommentSubmit = async (e) => {
       </aside>
 
       <main className="main-content">
-      
-
-
         {successMessage && (
         <div className="alert"   style={{ height:'50px',color:'white',background:'rgb(14, 80, 14)', width:'240px',position: 'fixed', top: '10px', right: '10px', }}>
           {successMessage}
         </div>
       )}
 
-  {/* Edit Post Modal */}
-  <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="editModalLabel">Edit Post</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <form onSubmit={handleUpdatePost}>
-          <div className="mb-3">
-            <label htmlFor="edit-post-title" className="col-form-label">Title:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-title"
-              value={editPostTitle}
-              onChange={(e) => setEditPostTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="edit-post-body" className="col-form-label">Body:</label>
-            <textarea
-              className="form-control"
-              id="edit-post-body"
-              value={editPostBody}
-              onChange={(e) => setEditPostBody(e.target.value)}
-              required
-            />
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+  
 
-
-
-{/* Edit comment Modal */}
-<div className="modal fade" id="editcommentModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="editModalLabel">Edit Comment</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <form onSubmit={handleUpdateComment}>
-          <div className="mb-3">
-            <label htmlFor="edit-post-name" className="col-form-label">Name:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-name"
-              value={editCommentName}
-              onChange={(e) => setEditCommentName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="edit-post-body" className="col-form-label">Email:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-title"
-              value={editCommentEmail}
-              onChange={(e) => setEditCommentEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="edit-post-body" className="col-form-label">Body:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-title"
-              value={editCommentBody}
-              onChange={(e) => setEditCommentBody(e.target.value)}
-              required
-            />
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 {/* Edit Photo Modal */}
 <div className="modal fade" id="editphotoModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -568,24 +300,7 @@ const handleCommentSubmit = async (e) => {
 </div>
 
 
-{/*delete post modal*/}
-<div className="modal fade" id="deletepostModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="deleteModalLabelpost">Confirm Deletion</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <p>Are you sure you want to delete this Post?</p>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDelete}>Yes</button>
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 
@@ -607,68 +322,10 @@ const handleCommentSubmit = async (e) => {
     </div>
   </div>
 </div>
-{/*delete comment modal*/}
-<div className="modal fade" id="deletecommentModal" tabIndex="-1" aria-labelledby="deleteModalLabelphoto" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="deleteModalLabelphoto">Confirm Deletion</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <p>Are you sure you want to delete this Comment?</p>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDeleteComment}>Yes</button>
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
-        {selectedTab === 'Posts' && (
-          <>
-          <nav className="navbar">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-         
-         <i class="bi bi-bookmark-heart bi-mx-auto p-2"></i> {" "}{" "}Posts
-        </a>
-        <form className="d-flex" role="search">
-          <input className="form-control me-2" value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search"/>
-          <button  type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#postModal" data-bs-whatever="@mdo">CreatePost</button>
-        </form>
-      </div>
-    </nav>
-          <div className="box-container">
-            {filteredPosts.map(post => (
-              <div key={post.id} className="post">
-                 <ol class="list-group">
-           
-           <li class="list-group-item d-flex justify-content-between align-items-start">
-           <div className="user-info">
-             <div className="user-initials">{getInitials(post.title)}</div>
-             <h3 className="user-nam" >{post.title}</h3>
-             </div>
-             <div class="btn-group" role="group" aria-label="Basic example">
-           
-           <button type="button" class="btn btn-light" onClick={() => handleEditPost(post)} data-bs-toggle="modal" data-bs-target="#editModal"><i className="bi bi-pencil-square"></i></button>
-           <button type="button" class="btn btn-light" onClick={() => handleDeletePost(post)} data-bs-toggle="modal" data-bs-target="#deletepostModal"><i className="bi bi-trash"></i></button>
-          
-         </div>    
-              
-           </li>  
-           
-         </ol>  
-         <br/>  
-         <p>{post.body}</p>         
-              </div>
-            ))}
-          </div>
-          </>
-        )}
+
+        
 
           {selectedTab === 'Photos' && (
             <>
@@ -766,140 +423,12 @@ const handleCommentSubmit = async (e) => {
         )}
 
 
-        {selectedTab === 'Comments' && (
-          <>
-          <nav className="navbar">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-         
-        <i class="bi bi-chat-heart bi-mx-auto p-2"></i> {" "}{" "}Comments
-        </a>
-        <form className="d-flex" role="search">
-          <input className="form-control me-2" value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search"/>
-          <button  type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#commentModal" data-bs-whatever="@mdo">CreateComment</button>
-        </form>
-      </div>
-    </nav>
-          <div className="box-container">
-            {filteredComments.map(comment => (
-              <div key={comment.id} className="post">
-                <ol class="list-group">      
-  <li class="list-group-item d-flex justify-content-between align-items-start">
-  <div className="user-info">
-    <div className="user-initials">{getInitials(comment.name)}</div>
-    <h3 className="user-name" >{comment.name}</h3>
-    </div>
-    <div class="btn-group" role="group" aria-label="Basic example">
-  
-  <button type="button" class="btn btn-light"  onClick={() => handleEditComment(comment)}  data-bs-toggle="modal" data-bs-target="#editcommentModal"><i className="bi bi-pencil-square"></i></button>
-  <button type="button" class="btn btn-light"  onClick={() => handleDeleteComment(comment)} data-bs-toggle="modal" data-bs-target="#deletecommentModal"><i className="bi bi-trash"></i></button>
-</div>          
-  </li>  
-</ol> 
-<br/>
-<p>{comment.email}</p>
-                <p>{comment.body}</p>          
-              </div>
-            ))}
-          </div>
-          </>
-        )}
-        {/* Add Post Modal */}
-              <div className="modal fade" id="postModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Add Post</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div className="modal-body">
-          <form onSubmit={handlePostSubmit}>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Title:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newPostTitle}
-                onChange={(e) => setNewPostTitle(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="post-body" className="col-form-label">Body:</label>
-              <textarea
-                className="form-control"
-                id="post-body"
-                value={newPostBody}
-                onChange={(e) => setNewPostBody(e.target.value)}
-                required
-              />
-            </div>
-            <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        
+        
 
         
 
-{/* Add comment Modal */}
-<div className="modal fade" id="commentModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Add Post</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div className="modal-body">
-          <form onSubmit={handleCommentSubmit}>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Name:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newCommentName}
-                onChange={(e) => setNewCommentName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Email:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newCommentEmail}
-                onChange={(e) => setNewCommentEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Body:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newCommentBody}
-                onChange={(e) => setNewCommentBody(e.target.value)}
-                required
-              />
-            </div>
-            <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   {/*photo add modal */}
   <div className="modal fade" id="photoModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -937,6 +466,7 @@ const handleCommentSubmit = async (e) => {
       </div>
     </div>
   </div>
+
     
         <Snackbar
           open={snackbarOpen}
@@ -954,8 +484,12 @@ const handleCommentSubmit = async (e) => {
             {snackbarMessage}
           </MuiAlert>
         </Snackbar>
+        <UsersComponent/>
+        <CommentsComponent/>
       </main>
+      
     </div>
+    
   );
 };
 export default MainApp;
