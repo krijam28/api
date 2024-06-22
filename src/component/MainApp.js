@@ -64,22 +64,23 @@ const getInitials = (name) => {
 
   
 
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setNewPhotoThumbnailUrl(reader.result); // Update state with the URL of the selected file
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const handleEditFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditPhotoThumbnailUrl(reader.result); // Update state with the URL of the selected file
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    // You might want to handle other file properties as needed
-    setEditPhotoThumbnailUrl(file); // Store the file object in state
+    const file = e.target.files[0]; // Assuming you're handling a single file upload
+    const url = URL.createObjectURL(file);
+    setNewPhotoThumbnailUrl(url);
   };
+  
 
 
   // Function to display success message and clear after a timeout
@@ -663,30 +664,35 @@ const handleCommentSubmit = async (e) => {
       </div>      
 
       <div className="modal-body">
-          <form onSubmit={handleUpdatePhoto}>
+      <form onSubmit={handleUpdatePhoto}>
+  <div className="mb-3">
+    <label htmlFor="edit-photo-title" className="col-form-label">Title:</label>
+    <textarea
+      className="form-control"
+      id="edit-photo-title"
+      value={editPhotoTitle}
+      onChange={(e) => setEditPhotoTitle(e.target.value)}
+      required
+    />
+  </div>
+  <div className="mb-3">
+    <label htmlFor="edit-photo-thumbnail" className="col-form-label">Thumbnail:</label>
+    <input
+      type="file"
+      className="form-control"
+      id="edit-photo-thumbnail"
+      onChange={handleEditFileChange} // Implement handleEditFileChange to handle file change for editing
+    />
+    {editPhotoThumbnailUrl && (
+      <img className="img-fluid mt-2" src={editPhotoThumbnailUrl} alt="Current Thumbnail" />
+    )}
+  </div>
+  <div className="modal-footer">
+    <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
+    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+  </div>
+</form>
 
-          <div class="mb-3">
-  <input type="file" class="form-control" id="inputGroupFile02"
-   value={editPhotoThumbnailUrl}
-   onChange={(e) => setEditPhotoThumbnailUrl(e.target.value)}/>  
-</div>
-
-          <div className="mb-3">
-            <label htmlFor="edit-post-title" className="col-form-label">Title:</label>
-            <textarea
-              className="form-control"
-              id="edit-post-title"
-              //value={editPhotoTitle}
-              onChange={handleFileChange} 
-              //onChange={(e) => setEditPhotoTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
@@ -873,16 +879,27 @@ const handleCommentSubmit = async (e) => {
             <div className="box-container">
               {filteredPhotos.map(photo => (
                 <div key={photo.id} className="post">
-                  <p>{photo.title}</p>
-                  <div className='both-btn'>
-              <button className='edit-button'  onClick={() => handleEditPhoto(photo)} data-bs-toggle="modal" data-bs-target="#editphotoModal"><i className="bi bi-pencil-square"></i></button>
-              <button className='delete-button' onClick={() => handleDeletePhoto(photo)} data-bs-toggle="modal" data-bs-target="#deletephotoModal"><i className="bi bi-trash"></i></button>
+               
+ <div className="card mb-3" style={{ maxWidth: '540px' }}>
+
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img class="img-fluid rounded-start"  src={photo.thumbnailUrl}  />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+       <p>{photo.title}</p>
+       <div class="btn-group" role="group" aria-label="Basic example">
+              <button class="btn btn-light"  onClick={() => handleEditPhoto(photo)} data-bs-toggle="modal" data-bs-target="#editphotoModal"><i className="bi bi-pencil-square"></i></button>
+              <button class="btn btn-light" onClick={() => handleDeletePhoto(photo)} data-bs-toggle="modal" data-bs-target="#deletephotoModal"><i className="bi bi-trash"></i></button>
             </div>
-                  <img src={photo.thumbnailUrl}  />
-                
-                
-                </div> 
-              ))}
+            
+      </div>
+    </div>
+  </div>
+</div>          
+ </div> 
+))}
             </div>
             </>
           )}
@@ -1142,9 +1159,7 @@ const handleCommentSubmit = async (e) => {
           <form onSubmit={handlePhotoSubmit}>
           <div class="input-group mb-3">
   <input type="file" class="form-control" id="inputGroupFile02"
-   value={newPhotoThumbnailUrl}
-   onChange={(e) => setNewPhotoThumbnailUrl(e.target.value)}/>
-  
+    onChange={handleFileChange} />
 </div>
             <div className="mb-3">
               <label htmlFor="post-body" className="col-form-label">Title:</label>
@@ -1156,6 +1171,9 @@ const handleCommentSubmit = async (e) => {
                 required
               />
             </div>
+            {newPhotoThumbnailUrl && (
+      <img className="img-fluid mt-2" src={newPhotoThumbnailUrl} alt="Current Thumbnail" />
+    )}
             <div className="modal-footer">
             <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
