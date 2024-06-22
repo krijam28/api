@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PostsComponent = ({ posts, setPosts, handleSnackbar, setSearchQuery }) => {
+const PostsComponent = ({}) => {
     const [posts, setPosts] = useState([]);
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostBody, setNewPostBody] = useState('');
     const [editPostTitle, setEditPostTitle] = useState('');
     const [editPostBody, setEditPostBody] = useState('');
     const [editPostId, setEditPostId] = useState(null);
-    //const [filteredPosts, setFilteredPosts] = useState([]);
+    const [deletePostId, setDeletePostId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTab, setSelectedTab] = useState('Users');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [filteredPosts, setFilteredPosts] = useState([]);
+    
 
+
+
+    const getInitials = (name) => {
+        const initials = name.match(/\b\w/g) || [];
+        return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+      };
+      // Function to display success message and clear after a timeout
+      const handleSnackbar = (message) => {
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+      };
+     
 {/*delete post */}
 
 const handleDeletePost = (post) => {
@@ -86,25 +105,33 @@ const handleDeletePost = (post) => {
     }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
- 
+//   useEffect(() => {
+//     fetchPosts();
+//   }, []);
+useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const postsResponse = await axios.get('http://localhost:5001/posts');
-        setPosts(postsResponse.data);        
+        setPosts(postsResponse.data);
+
+        
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
     };
 
+    fetchData();
+  }, []);
+ 
+  
+
+  useEffect(() => {
     const filteredPosts = posts.filter(post =>
       post.title && post.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredPosts(filteredPosts);
- 
-
+  }, [searchQuery,posts]);
 
   return (
     <div>
