@@ -3,7 +3,8 @@ import axios from 'axios';
 import fetchPhotos from '../API/Photos';
 import fetchTodos from '../API/Todos';
 import fetchAlbums from '../API/Albums';
-import fetchUsers from '../API/Users';
+//import fetchUsers from '../API/Users';
+import UsersComponent from '../API/Users';
 import fetchComments from '../API/Comments';
 import '../styles/PostData.css';
 import Snackbar from '@mui/material/Snackbar';
@@ -51,7 +52,6 @@ const MainApp = () => {
   const [newCommentBody, setNewCommentBody] = useState('');
   const [newCommentName, setNewCommentName] = useState('');
   const [newCommentEmail, setNewCommentEmail] = useState('');
-
   const [editCommentName, setEditCommentName] = useState('');
   const [editCommentEmail, setEditCommentEmail] = useState('');
   const [editCommentBody, setEditCommentBody] = useState('');
@@ -108,24 +108,7 @@ const confirmDelete = async () => {
   }
 };
 
-{/*delete User */}
 
-const handleDeleteUser = (user) => {
-  setDeleteUserId(user.id);
-};
-
-const confirmDeleteUser = async () => {
-  try {
-    await axios.delete(`http://localhost:5000/users/${deleteUserId}`);
-    
-    // Filter out the deleted post from the posts state
-    const updatedUsers = users.filter(user => user.id !== deleteUserId);
-    setUsers(updatedUsers);
-    handleSnackbar('User Deleted Successfully');
-  } catch (error) {
-    console.error('Error deleting user:', error);
-  }
-};
 
 {/*delete photo */}
 const handleDeletePhoto = (photo) => {
@@ -191,39 +174,7 @@ const confirmDeleteComment = async () => {
   };
   
 
-  {/*add user */}
-  const handleUserSubmit = async (e) => {
-    e.preventDefault();
   
-    try {
-      const response = await axios.post('http://localhost:5000/users',{
-        name: newUserName,
-        email: newUserEmail,
-        phone: newUserPhone,
-        
-
-        // Optionally, you can add userId if required
-      });
-  
-      // Assuming your API returns the newly created post object, you can update your state accordingly
-      const newUser = response.data; // Assuming response.data is the newly created post object
-      setUsers([...users, newUser]); // Update posts state with the new post
-      handleSnackbar('User Created Successfully');
-    
-  
-      // Clear the input fields
-      setNewUserName('');
-      setNewUserEmail('');
-      setNewUserPhone('');
-      // setNewUserZipcode('');
-      // setNewUserCity('');
-  
-      // Optionally, you can fetch updated data from the server again if needed
-      // Example: refetchPosts();
-    } catch (error) {
-      console.error('Error adding user:', error);
-    }
-  };
 
 
 {/*add photo */}
@@ -319,38 +270,7 @@ const handleCommentSubmit = async (e) => {
     }
   };
 
-  {/*edit user*/}
-  const handleEditUser = (user) => {
-    setEditUserId(user.id);
-    setEditUserName(user.name);
-    setEditUserEmail(user.email);
-    setEditUserPhone(user.phone);
-  };
   
-  const handleUpdateUser = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await axios.put(`http://localhost:5000/users/${editUserId}`, {
-        name: editUserName,
-        email: editUserEmail,
-        phone: editUserPhone,
-       
-      });
-  
-      const updatedUser = response.data;
-  
-      // Update the posts state with the updated post
-      const updatedUsers = users.map(user =>
-        user.id === updatedUser.id ? updatedUser : user
-      );
-      setUsers(updatedUsers);
-      handleSnackbar('User Updated Successfully');
-     
-    } catch (error) {
-      console.error('Error updating user:', error);
-    }
-  };
 
   {/*edit photo*/}
   const handleEditPhoto = (photo) => {
@@ -547,58 +467,7 @@ const handleCommentSubmit = async (e) => {
     </div>
   </div>
 </div>
-{/* Edit user Modal */}
-<div className="modal fade" id="edituserModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="editModalLabel">Edit User</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <form onSubmit={handleUpdateUser}>
-          <div className="mb-3">
-            <label htmlFor="edit-post-name" className="col-form-label">Name:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-name"
-              value={editUserName}
-              onChange={(e) => setEditUserName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="edit-post-body" className="col-form-label">Email:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-title"
-              value={editUserEmail}
-              onChange={(e) => setEditUserEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="edit-post-body" className="col-form-label">Phone:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="edit-post-title"
-              value={editUserPhone}
-              onChange={(e) => setEditUserPhone(e.target.value)}
-              required
-            />
-          </div>
-          <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
-            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 {/* Edit comment Modal */}
@@ -718,24 +587,7 @@ const handleCommentSubmit = async (e) => {
   </div>
 </div>
 
-{/*delete user modal*/}
-<div className="modal fade" id="deleteuserModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="deleteModalLabeluser">Confirm Deletion</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        <p>Are you sure you want to delete this User?</p>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDeleteUser}>Yes</button>
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 {/*delete photo modal*/}
 <div className="modal fade" id="deletephotoModal" tabIndex="-1" aria-labelledby="deleteModalLabelphoto" aria-hidden="true">
@@ -817,49 +669,6 @@ const handleCommentSubmit = async (e) => {
           </div>
           </>
         )}
-
-
-
-{selectedTab === 'Users' && (
-  <>
-    <nav className="navbar">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-        <i class="bi bi-people bi-mx-auto p-2" ></i> {" "}{" "}Users</a>
-        <form className="d-flex" role="search">
-          <input className="form-control me-2" value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search"/>
-          <button  type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#userModal" data-bs-whatever="@mdo">CreateUser</button>
-        </form>
-      </div>
-    </nav>
-
-    <div className="box-container">
-     
-      {filteredUsers.map(user => (
-        <div key={user.id} className="post">  
-            <ol class="list-group">      
-  <li class="list-group-item d-flex justify-content-between align-items-start">
-  <div className="user-info">
-    <div className="user-initials">{getInitials(user.name)}</div>
-    <h3 className="user-name" >{user.name}</h3>
-    </div>
-    <div class="btn-group" role="group" aria-label="Basic example">
-  
-  <button type="button" class="btn btn-light" onClick={() => handleEditUser(user)} data-bs-toggle="modal" data-bs-target="#edituserModal"><i className="bi bi-pencil-square"></i></button>
-  <button type="button" class="btn btn-light" onClick={() => handleDeleteUser(user)} data-bs-toggle="modal" data-bs-target="#deleteuserModal"><i className="bi bi-trash"></i></button>
-</div>          
-  </li>  
-</ol>           
- <br/>
-            <p>{user.email}</p>
-          <p>{user.phone}</p>
-        </div>
-      ))}
-    </div>
- 
-  </>
-)}
 
           {selectedTab === 'Photos' && (
             <>
@@ -1037,59 +846,7 @@ const handleCommentSubmit = async (e) => {
     </div>
   </div>
 
-        {/* Add User Modal */}
-        <div className="modal fade" id="userModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h1 className="modal-title fs-5" id="exampleModalLabel">Add Post</h1>
-          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div className="modal-body">
-          <form onSubmit={handleUserSubmit}>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Name:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newUserName}
-                onChange={(e) => setNewUserName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Email:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newUserEmail}
-                onChange={(e) => setNewUserEmail(e.target.value)}
-                required
-              />
-            </div>
-         
-            <div className="mb-3">
-              <label htmlFor="post-title" className="col-form-label">Phone:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="post-title"
-                value={newUserPhone}
-                onChange={(e) => setNewUserPhone(e.target.value)}
-                required
-              />
-            </div>
-            <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        
 
 {/* Add comment Modal */}
 <div className="modal fade" id="commentModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1123,7 +880,6 @@ const handleCommentSubmit = async (e) => {
                 required
               />
             </div>
-         
             <div className="mb-3">
               <label htmlFor="post-title" className="col-form-label">Body:</label>
               <input
@@ -1181,11 +937,6 @@ const handleCommentSubmit = async (e) => {
       </div>
     </div>
   </div>
-
-
-
-
-
     
         <Snackbar
           open={snackbarOpen}
