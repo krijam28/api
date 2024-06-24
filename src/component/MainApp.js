@@ -928,7 +928,7 @@ const handleTodoSubmit = async (e) => {
            
          </ol>  
          <br/>  
-         <p>{post.body}</p>         
+         <p className='post-body'>{post.body}</p>         
               </div>
             ))}
           </div>
