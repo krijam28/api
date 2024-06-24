@@ -1114,7 +1114,7 @@ const handleTodoSubmit = async (e) => {
 </ol>
 <br/>
 <p className="comment-email">{comment.email}</p>
-                <p  className='comment-body'>{comment.body}</p>          
+                <p  className="comment-body">{comment.body}</p>          
               </div>
             ))}
           </div>
