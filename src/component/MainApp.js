@@ -966,8 +966,7 @@ const handleTodoSubmit = async (e) => {
 </div>          
   </li>  
 </ol>           
- <br/>
-            <p className='user-email'>{user.email}</p>
+ <br/>      <p className='user-email'>{user.email}</p>
           <p className='user-email'>{user.phone}</p>
         </div>
       ))}

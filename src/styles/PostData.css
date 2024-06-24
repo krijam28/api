@@ -10,8 +10,11 @@
   .drawer {
     background-color: #ddd;
     width: 250px;
-    height: 170%;
+    height: 155%;
     overflow-y: auto;
+    margin-top: 20px;
+   
+    border-top-right-radius: 10px;
   }
   
   .drawer-menu {
@@ -54,7 +57,6 @@
     }
     
   }
-
 
 /* circel icon*/
 .user-initials {
@@ -102,6 +104,7 @@
     .post {
       flex-basis: calc(100% - 20px); /* Full width for each box with 20px spacing */
     }
+    
     .drawer{
         height: 6100%;
     }
