@@ -1111,7 +1111,7 @@ const handleTodoSubmit = async (e) => {
   <button type="button" class="btn btn-light"  onClick={() => handleDeleteComment(comment)} data-bs-toggle="modal" data-bs-target="#deletecommentModal"><i className="bi bi-trash"></i></button>
 </div>          
   </li>  
-</ol> 
+</ol>
 <br/>
 <p className="comment-email" >{comment.email}</p>
                 <p  className='comment-body'>{comment.body}</p>          
