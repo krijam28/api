@@ -157,6 +157,10 @@ font-size: 20px;
   background-color: #999;
   border-radius: 10px;
 }
-.nameactive{
- 
+
+.comment-email{
+  font-size: 15px;
+}
+.comment-body{
+  font-size: 15px;
 }

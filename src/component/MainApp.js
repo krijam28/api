@@ -570,9 +570,6 @@ const handleTodoSubmit = async (e) => {
       </aside>
 
       <main className="main-content">
-      
-
-
         {successMessage && (
         <div className="alert"   style={{ height:'50px',color:'white',background:'rgb(14, 80, 14)', width:'240px',position: 'fixed', top: '10px', right: '10px', }}>
           {successMessage}
@@ -662,6 +659,38 @@ const handleTodoSubmit = async (e) => {
               required
             />
           </div>
+          <div className="modal-footer">
+            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* Edit todo Modal */}
+<div className="modal fade" id="edittodoModal" tabIndex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="editModalLabel">Edit Todo</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <form onSubmit={handleUpdateTodo}>
+          <div className="mb-3">
+            <label htmlFor="edit-post-name" className="col-form-label">Name:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="edit-post-name"
+              value={editTodoName}
+              onChange={(e) => setEditTodoName(e.target.value)}
+              required
+            />
+          </div>
+       
           <div className="modal-footer">
             <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Update</button>
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -906,8 +935,6 @@ const handleTodoSubmit = async (e) => {
           </>
         )}
 
-
-
 {selectedTab === 'Users' && (
   <>
     <nav className="navbar">
@@ -999,7 +1026,6 @@ const handleTodoSubmit = async (e) => {
          <a className="navbar-brand" href="#">
           
          <i class="bi bi-card-list bi-mx-auto p-2"></i> {" "}{" "}Todos
-         
          </a>
          <form className="d-flex" role="search">
            <input className="form-control me-2" value={searchQuery}
@@ -1087,8 +1113,8 @@ const handleTodoSubmit = async (e) => {
   </li>  
 </ol> 
 <br/>
-<p>{comment.email}</p>
-                <p>{comment.body}</p>          
+<p className='comment-email' >{comment.email}</p>
+                <p  className='comment-body'>{comment.body}</p>          
               </div>
             ))}
           </div>
@@ -1212,7 +1238,7 @@ const handleTodoSubmit = async (e) => {
             </div>
             <div className="modal-footer">
             <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
           </form>
         </div>
