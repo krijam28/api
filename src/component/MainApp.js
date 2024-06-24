@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import fetchPhotos from '../API/Photos';
@@ -9,7 +8,6 @@ import fetchComments from '../API/Comments';
 import '../styles/PostData.css';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
 
 const MainApp = () => {
   const [posts, setPosts] = useState([]);
@@ -35,15 +33,18 @@ const MainApp = () => {
   const [editPostBody, setEditPostBody] = useState('');
   const [editPostId, setEditPostId] = useState(null);
   const [editUserName, setEditUserName] = useState('');
+  const [editTodoName, setEditTodoName] = useState('');
   const [editUserEmail, setEditUserEmail] = useState('');
   const [editUserPhone, setEditUserPhone] = useState('');
   const [editUserId, setEditUserId] = useState(null);
   const [editPhotoTitle, setEditPhotoTitle] = useState('');
   const [editPhotoThumbnailUrl, setEditPhotoThumbnailUrl] = useState('');
   const [editPhotoId, setEditPhotoId] = useState(null);
+  const [editTodoId, setEditTodoId] = useState(null);
   const [deletePostId, setDeletePostId] = useState(null);
   const [deleteUserId, setDeleteUserId] = useState(null);
   const [deletePhotoId, setDeletePhotoId] = useState(null);
+  const [deleteTodoId, setDeleteTodoId] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -52,8 +53,8 @@ const MainApp = () => {
   const [deleteCommentId, setDeleteCommentId] = useState(null);
   const [newCommentBody, setNewCommentBody] = useState('');
   const [newCommentName, setNewCommentName] = useState('');
+  const [newTodoName, setNewTodoName] = useState('');
   const [newCommentEmail, setNewCommentEmail] = useState('');
-
   const [editCommentName, setEditCommentName] = useState('');
   const [editCommentEmail, setEditCommentEmail] = useState('');
   const [editCommentBody, setEditCommentBody] = useState('');
@@ -111,7 +112,6 @@ const confirmDelete = async () => {
 };
 
 {/*delete User */}
-
 const handleDeleteUser = (user) => {
   setDeleteUserId(user.id);
 };
@@ -164,6 +164,24 @@ const confirmDeleteComment = async () => {
     console.error('Error deleting comment:', error);
   }
 };
+{/*delete todo */}
+const handleDeleteTodo = (todo) => {
+  setDeleteTodoId(todo.id);
+};
+
+const confirmDeleteTodo = async () => {
+  try {
+    await axios.delete(`http://localhost:5003/todos/${deleteTodoId}`);
+    
+    // Filter out the deleted post from the posts state
+    const updatedTodos = todos.filter(todo => todo.id !== deleteTodoId);
+    setTodos(updatedTodos);
+    handleSnackbar('Todo Deleted Successfully');
+  } catch (error) {
+    console.error('Error deleting todo:', error);
+  }
+};
+
 {/*add post */}
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -179,8 +197,6 @@ const confirmDeleteComment = async () => {
       const newPost = response.data; // Assuming response.data is the newly created post object
       setPosts([...posts, newPost]); // Update posts state with the new post
       handleSnackbar('Post Created Successfully');
-    
-  
       // Clear the input fields
       setNewPostTitle('');
       setNewPostBody('');
@@ -211,7 +227,6 @@ const confirmDeleteComment = async () => {
       const newUser = response.data; // Assuming response.data is the newly created post object
       setUsers([...users, newUser]); // Update posts state with the new post
       handleSnackbar('User Created Successfully');
-    
   
       // Clear the input fields
       setNewUserName('');
@@ -287,6 +302,34 @@ const handleCommentSubmit = async (e) => {
     // Example: refetchPosts();
   } catch (error) {
     console.error('Error adding comment:', error);
+  }
+};
+
+{/*add todos */}
+const handleTodoSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await axios.post('http://localhost:5003/todos',{
+      name: newTodoName,
+
+    });
+
+    // Assuming your API returns the newly created post object, you can update your state accordingly
+    const newTodo = response.data; // Assuming response.data is the newly created post object
+    setTodos([...todos, newTodo]); // Update posts state with the new post
+    handleSnackbar('Todo Created Successfully');
+  
+
+    // Clear the input fields
+    setNewTodoName('');
+   
+   
+
+    // Optionally, you can fetch updated data from the server again if needed
+    // Example: refetchPosts();
+  } catch (error) {
+    console.error('Error adding todo:', error);
   }
 };
 
@@ -419,6 +462,36 @@ const handleCommentSubmit = async (e) => {
     }
   };
 
+  {/*edit todo*/}
+  const handleEditTodo = (todo) => {
+    setEditTodoId(todo.id);
+    setEditTodoName(todo.name);
+   
+  };
+  
+  const handleUpdateTodo = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await axios.put(`http://localhost:5003/todos/${editTodoId}`, {
+        name: editTodoName,
+      
+      });
+  
+      const updatedTodo = response.data;
+  
+      // Update the posts state with the updated post
+      const updatedTodos = todos.map(todo =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      );
+      setTodos(updatedTodos);
+      handleSnackbar('Todo Updated Successfully');
+     
+    } catch (error) {
+      console.error('Error updating comment:', error);
+    }
+  };
+
 {/*api caaling */}
   useEffect(() => {
     
@@ -452,7 +525,7 @@ const handleCommentSubmit = async (e) => {
   {/*filter search post */}
     useEffect(() => {
     const filteredUsers = users.filter(user =>
-       user.name.toLowerCase().includes(searchQuery.toLowerCase())
+       user.name && user.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredUsers(filteredUsers);
 
@@ -467,7 +540,7 @@ const handleCommentSubmit = async (e) => {
     setFilteredComments(filteredComments);
 
     const filteredTodos = todos.filter(todo =>
-      todo.title.toLowerCase().includes(searchQuery.toLowerCase())
+      todo.name && todo.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredTodos(filteredTodos);
 
@@ -482,9 +555,6 @@ const handleCommentSubmit = async (e) => {
     setFilteredPhotos(filteredPhotos);
   }, [searchQuery, users, posts, comments, todos, albums, photos]);
 
-
-  
-  
   return (
     <div className="app">
       <aside className="drawer">
@@ -757,6 +827,24 @@ const handleCommentSubmit = async (e) => {
     </div>
   </div>
 </div>
+{/*delete todo modal*/}
+<div className="modal fade" id="deletetodoModal" tabIndex="-1" aria-labelledby="deleteModalLabelphoto" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="deleteModalLabeltodo">Confirm Deletion</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+        <p>Are you sure you want to delete this Todo?</p>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={confirmDeleteTodo}>Yes</button>
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
 {/*delete comment modal*/}
 <div className="modal fade" id="deletecommentModal" tabIndex="-1" aria-labelledby="deleteModalLabelphoto" aria-hidden="true">
   <div className="modal-dialog">
@@ -806,9 +894,7 @@ const handleCommentSubmit = async (e) => {
            
            <button type="button" class="btn btn-light" onClick={() => handleEditPost(post)} data-bs-toggle="modal" data-bs-target="#editModal"><i className="bi bi-pencil-square"></i></button>
            <button type="button" class="btn btn-light" onClick={() => handleDeletePost(post)} data-bs-toggle="modal" data-bs-target="#deletepostModal"><i className="bi bi-trash"></i></button>
-          
          </div>    
-              
            </li>  
            
          </ol>  
@@ -901,9 +987,9 @@ const handleCommentSubmit = async (e) => {
 </div>          
  </div> 
 ))}
-            </div>
-            </>
-          )}
+</div>
+ </>
+ )}
 
 
         {selectedTab === 'Todos' && (
@@ -918,14 +1004,25 @@ const handleCommentSubmit = async (e) => {
          <form className="d-flex" role="search">
            <input className="form-control me-2" value={searchQuery}
              onChange={(e) => setSearchQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search"/>
-           <button  type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#postModal" data-bs-whatever="@mdo">CreateTodo</button>
+           <button  type="button" class="btn btn-dark"  data-bs-toggle="modal" data-bs-target="#todoModal" data-bs-whatever="@mdo">CreateTodo</button>
          </form>
        </div>
      </nav>
           <div className="box-container">
             {filteredTodos.map(todo => (
               <div key={todo.id} className="post">
-                <h2>{todo.title}</h2>
+                <ol class="list-group">      
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+  <div className="user-info">
+    <div className="user-initials">{getInitials(todo.name)}</div>
+    <h2>{todo.name}</h2>
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+  <button type="button" class="btn btn-light" onClick={() => handleEditTodo(todo)} data-bs-toggle="modal" data-bs-target="#edittodoModal"><i className="bi bi-pencil-square"></i></button>
+  <button type="button" class="btn btn-light" onClick={() => handleDeleteTodo(todo)} data-bs-toggle="modal" data-bs-target="#deletetodoModal"><i className="bi bi-trash"></i></button>
+</div>          
+  </li>  
+</ol>          
               </div>
             ))}
           </div>
@@ -1092,6 +1189,36 @@ const handleCommentSubmit = async (e) => {
     </div>
   </div>
 
+{/* Add todo Modal */}
+<div className="modal fade" id="todoModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h1 className="modal-title fs-5" id="exampleModalLabel">Add Todo</h1>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div className="modal-body">
+          <form onSubmit={handleTodoSubmit}>
+            <div className="mb-3">
+              <label htmlFor="post-title" className="col-form-label">Name:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="post-title"
+                value={newTodoName}
+                onChange={(e) => setNewTodoName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="modal-footer">
+            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {/* Add comment Modal */}
 <div className="modal fade" id="commentModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div className="modal-dialog">
