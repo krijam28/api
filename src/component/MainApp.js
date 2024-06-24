@@ -862,7 +862,6 @@ const handleCommentSubmit = async (e) => {
  
   </>
 )}
-
           {selectedTab === 'Photos' && (
             <>
             <nav className="navbar">
