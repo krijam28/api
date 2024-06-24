@@ -10,11 +10,11 @@ const PostsComponent = ({}) => {
     const [editPostId, setEditPostId] = useState(null);
     const [deletePostId, setDeletePostId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState('Users');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [filteredPosts, setFilteredPosts] = useState([]);
+    const [selectedTab, setSelectedTab] = useState('users');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [filteredPosts, setFilteredPosts] = useState([]);
     
 
 
@@ -158,7 +158,7 @@ useEffect(() => {
            <li class="list-group-item d-flex justify-content-between align-items-start">
            <div className="user-info">
              <div className="user-initials">{getInitials(post.title)}</div>
-             <h3 className="user-nam" >{post.title}</h3>
+             <h3 className="user-name" >{post.title}</h3>
              </div>
              <div class="btn-group" role="group" aria-label="Basic example">
            

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
-import MainApp from  './component/MainApp'; 
+ import MainApp from  './component/MainApp'; 
+
 
 
 const App = () => {
@@ -8,9 +9,6 @@ const App = () => {
     <Router>
       <Routes>
       <Route path="/" element={<MainApp />} />
-        
-      
-        
       </Routes>
     </Router>
   );
