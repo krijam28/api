@@ -9,7 +9,7 @@ import '../styles/PostData.css';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const MainApp = () => {
+const MainApp = (index) => {
   const [posts, setPosts] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [todos,setTodos] = useState([]);
@@ -1016,8 +1016,6 @@ const handleTodoSubmit = async (e) => {
 </div>
  </>
  )}
-
-
         {selectedTab === 'Todos' && (
            <>
            <nav className="navbar">
@@ -1048,7 +1046,7 @@ const handleTodoSubmit = async (e) => {
 </div>          
   </li>  
 </ol>          
-              </div>
+ </div>
             ))}
           </div>
           </>
@@ -1095,7 +1093,7 @@ const handleTodoSubmit = async (e) => {
         </form>
       </div>
     </nav>
-          <div className="box-container">
+          {/* <div className="box-container">
             {filteredComments.map(comment => (
               <div key={comment.id} className="post">
                 <ol class="list-group">      
@@ -1116,7 +1114,35 @@ const handleTodoSubmit = async (e) => {
                 <p  className="comment-body">{comment.body}</p>          
               </div>
             ))}
-          </div>
+          </div> */}
+          <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Sr.no</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Body</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>{comment.name}</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
           </>
         )}
         {/* Add Post Modal */}
