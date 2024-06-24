@@ -974,7 +974,7 @@ const handleTodoSubmit = async (e) => {
  
   </>
 )}
-          {selectedTab === 'Photos' && (
+{selectedTab === 'Photos' && (
             <>
             <nav className="navbar">
         <div className="container-fluid">
