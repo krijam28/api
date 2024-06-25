@@ -1093,7 +1093,35 @@ const handleTodoSubmit = async (e) => {
         </form>
       </div>
     </nav>
-          <div className="box-container">
+    <table className="table">
+  <thead>
+    <tr>
+      <th scope="col">Sr.no</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Body</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredComments.map((comment, index) => (
+      <tr key={comment.id}>
+        <th scope="row">{index + 1}</th>
+        <td>{comment.name}</td>
+        <td>{comment.email}</td>
+        <td>{comment.body}</td>
+        <td>
+          <div className="btn-group" role="group" aria-label="Basic example">
+            <button type="button" className="btn btn-light" onClick={() => handleEditComment(comment)} data-bs-toggle="modal" data-bs-target="#editcommentModal"><i className="bi bi-pencil-square"></i></button>
+            <button type="button" className="btn btn-light" onClick={() => handleDeleteComment(comment)} data-bs-toggle="modal" data-bs-target="#deletecommentModal"><i className="bi bi-trash"></i></button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+          {/* <div className="box-container">
             {filteredComments.map(comment => (
               <div key={comment.id} className="post">
                 <ol class="list-group">      
@@ -1114,7 +1142,7 @@ const handleTodoSubmit = async (e) => {
                 <p  className="comment-body">{comment.body}</p>          
               </div>
             ))}
-          </div>
+          </div> */}
           </>
         )}
         {/* Add Post Modal */}
