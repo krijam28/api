@@ -1093,7 +1093,7 @@ const handleTodoSubmit = async (e) => {
         </form>
       </div>
     </nav>
-          {/* <div className="box-container">
+          <div className="box-container">
             {filteredComments.map(comment => (
               <div key={comment.id} className="post">
                 <ol class="list-group">      
@@ -1114,35 +1114,7 @@ const handleTodoSubmit = async (e) => {
                 <p  className="comment-body">{comment.body}</p>          
               </div>
             ))}
-          </div> */}
-          <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Sr.no</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Body</th>
-      <th scope="col">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>{comment.name}</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+          </div>
           </>
         )}
         {/* Add Post Modal */}
